@@ -7,7 +7,6 @@ from typing import List, Dict
 
 
 def setup_driver() -> webdriver.Chrome:
-    """Khởi tạo trình duyệt headless."""
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
@@ -16,7 +15,6 @@ def setup_driver() -> webdriver.Chrome:
 
 
 def scroll_to_bottom(driver: webdriver.Chrome, delay: float = 3.0) -> None:
-    """Cuộn trang cho đến khi không còn nội dung mới."""
     last_height = driver.execute_script("return document.documentElement.scrollHeight")
     while True:
         driver.execute_script(
@@ -32,7 +30,6 @@ def scroll_to_bottom(driver: webdriver.Chrome, delay: float = 3.0) -> None:
 
 
 def extract_video_data(soup: BeautifulSoup, limit: int = None) -> List[Dict]:
-    """Trích xuất thông tin video từ HTML."""
     video_elements = soup.select("ytd-playlist-video-renderer")
     results = []
 
@@ -59,7 +56,6 @@ def extract_video_data(soup: BeautifulSoup, limit: int = None) -> List[Dict]:
 
 
 def save_to_csv(data: List[Dict], output_file: str) -> None:
-    """Lưu danh sách dữ liệu vào file CSV."""
     df = pd.DataFrame(data)
     df.to_csv(output_file, index=False, encoding="utf-8-sig")
     print(f"Đã lưu {len(df)} video vào '{output_file}'.")
@@ -68,7 +64,6 @@ def save_to_csv(data: List[Dict], output_file: str) -> None:
 def scrape_youtube_playlist(
     url: str, num_of_video: int = None, output_csv: str = "data.csv"
 ) -> None:
-    """Hàm tổng điều phối quá trình scrape YouTube playlist."""
     driver = setup_driver()
 
     driver.get(url)
