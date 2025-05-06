@@ -49,8 +49,8 @@ def extract_video_data(soup: BeautifulSoup, limit: int = None) -> List[Dict]:
             results.append(
                 {"title": title, "channel": channel, "view": view, "url": video_url}
             )
-        except Exception as e:
-            print("Lỗi khi xử lý video:", e)
+        except Exception:
+            pass
 
     return results
 
@@ -58,7 +58,6 @@ def extract_video_data(soup: BeautifulSoup, limit: int = None) -> List[Dict]:
 def save_to_csv(data: List[Dict], output_file: str) -> None:
     df = pd.DataFrame(data)
     df.to_csv(output_file, index=False, encoding="utf-8-sig")
-    print(f"Đã lưu {len(df)} video vào '{output_file}'.")
 
 
 def scrape_youtube_playlist(
@@ -76,5 +75,7 @@ def scrape_youtube_playlist(
     data = extract_video_data(soup, limit=num_of_video)
 
     save_to_csv(data, output_csv)
+
+    print(f"Đã lưu tại '{output_csv}'")
 
     driver.quit()
